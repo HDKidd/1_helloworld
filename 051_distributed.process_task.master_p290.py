@@ -22,7 +22,7 @@ class QueueManager(BaseManager):    # 从BaseManager 继承QueueManager
 
 '''
 # 把两个Queue注册到网络上，callable参数关联了Queue对象
-QueueManager.register('get_task_queue', callable=lambda: task_queue)
+undoneQueueManager.register('get_task_queue', callable=lambda: task_queue)
 QueueManager.register('get_result_queue', callable=lambda: result_queue)
 
 # 注意：廖雪峰的教程里，是默认在Linux下运行的，Win下callable不能以 lambda表达式赋值，故此代码做了一定修改
@@ -75,4 +75,4 @@ if __name__ == '__main__':
     runf()
 
 
-
+# undone
