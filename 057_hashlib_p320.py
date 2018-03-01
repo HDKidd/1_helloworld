@@ -1,11 +1,12 @@
 # !usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-'hashlib'
+"""hashlib"""
 
 __author__ = 'HDKidd'
 
 import hashlib
+import time
 
 # hashlib.md5()
 # mp5.update()
@@ -30,7 +31,6 @@ md5_5 = hashlib.md5()
 md5_5.update('password'.encode('utf-8'))
 print(md5_5.hexdigest())
 
-
 # 1.2 使用MD5算法计算出一个字符串的MD5值：分块多次调用update()
 print('========1.2========')
 
@@ -39,14 +39,12 @@ md5_2.update('how to use md5 in '.encode('utf-8'))
 md5_2.update('python hashlib?'.encode('utf-8'))
 print(md5_2.hexdigest())
 
-
 # 2.1 使用SHA1算法计算出一个字符串的SHA1值
 print('========2.1========')
 
 sha1_1 = hashlib.sha1()
 sha1_1.update('123456'.encode('utf-8'))
 print(sha1_1.hexdigest())
-
 
 # 3.1 摘要算法应用：储存用户名和密码  (未解决）
 print('========3.1========')
@@ -83,7 +81,7 @@ def calc_md5(password):
     return get_md5(password + 'the-salt' + username)
 
 
-# E.1 根据用户输入的登陆名和口令模拟用户注册，计算更安全的MD5
+# E.1 根据用户输入的登陆名和口令模拟用户注册，计算更安全的MD5, 并验证密码
 print('========E.1========')
 
 db = {}
@@ -91,10 +89,37 @@ db = {}
 
 def get_md5(username, password):
     md5 = hashlib.md5()
-    md5.update( )
+    str1 = password + username + 'abd'
+    md5.update(str1.encode('utf-8'))
+    return md5.hexdigest()
+
 
 def register(username, password):
-    db2[username] = get_md5(password + username + 'the-salt')
+    db[username] = get_md5(username, password)
+    print('Registration success!')
 
 
-
+if __name__ == '__main__':
+    while True:
+        choice = int(input('Please input: 1 for login; 2 for register; 0 for exit: ', ))
+        if choice == 1:
+            username = input('Please input your username:', )
+            password = input('Please input your password:', )
+            while username not in db or get_md5(username, password) != db[username]:
+                print('Wrong username or password! Please input again.')
+                username = input('Please input your username: ', )
+                password = input('Please input your password: ', )
+            time.sleep(1)
+            print('login success!')
+        elif choice == 2:
+            username = input('Please set your username: ',)
+            while username in db:
+                username = input('This username has been registered, please try another one: ',)
+            password = input('Please set your password: ',)
+            register(username, password)
+            time.sleep(1)
+        elif choice == 0:
+            print('Thank you!')
+            break
+        else:
+            print('Please input 1, 2, or 0.')
